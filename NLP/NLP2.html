@@ -2290,6 +2290,7 @@ background: linear-gradient( 89.4deg, rgba(194,0,39,1) 0.8%, rgba(10,35,104,1) 9
   <li><a href="#xy" id="toc-xy" class="nav-link" data-scroll-target="#xy">7.4) <code>(x|y)</code></a></li>
   <li><a href="#backreference-n-numeric" id="toc-backreference-n-numeric" class="nav-link" data-scroll-target="#backreference-n-numeric">7.5) Backreference <code>\n</code> (numeric)</a></li>
   <li><a href="#named-backreference-python-syntax-pname" id="toc-named-backreference-python-syntax-pname" class="nav-link" data-scroll-target="#named-backreference-python-syntax-pname">7.6) Named backreference (Python syntax: <code>(?P=name)</code>)</a></li>
+  <li><a href="#case-insensitive-matching-i" id="toc-case-insensitive-matching-i" class="nav-link" data-scroll-target="#case-insensitive-matching-i">7.7) Case insensitive matching <code>(?i)</code>)</a></li>
   </ul></li>
   <li><a href="#questions-for-practice-1" id="toc-questions-for-practice-1" class="nav-link" data-scroll-target="#questions-for-practice-1">8) Questions for practice:</a></li>
   <li><a href="#lookaround" id="toc-lookaround" class="nav-link" data-scroll-target="#lookaround">9) Lookaround</a>
@@ -3510,6 +3511,13 @@ Lazy &#39;&lt;div&gt;.*?&lt;/div&gt;&#39;: [&#39;&lt;div&gt;content&lt;/div&gt;&
 <td><span style="background-color: #6de0d1;">ll</span> in hello<br><span style="background-color: #6de0d1;">ss</span> in miss</td>
 <td>abc</td>
 </tr>
+<tr class="even">
+<td><code>(?i)</code></td>
+<td><strong>Case-insensitive flag</strong> (inline)</td>
+<td><code>r&#39;(?i)abc&#39;</code></td>
+<td><span style="background-color: #6de0d1;">abc</span>def <br><span style="background-color: #6de0d1;">ABC</span> DEF</td>
+<td>def DEF</td>
+</tr>
 </tbody>
 </table>
 <section id="question-1-why-grouping-needed-in-regex" class="level4">
@@ -3856,6 +3864,18 @@ Properly closed tags in &#39;&lt;h2&gt;Subtitle&lt;/h2&gt;&#39; is &#39;h2&#39;<
 </div>
 </div>
 </section>
+<section id="case-insensitive-matching-i" class="level3">
+<h3 class="anchored" data-anchor-id="case-insensitive-matching-i">7.7) Case insensitive matching <code>(?i)</code>)</h3>
+<p>It is possible to make the matching case insensitive by adding the <code>(?i)</code> flag to the pattern.</p>
+<div id="e98932a2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1"></a>string1 <span class="op">=</span> <span class="st">&#39;ABC abc def DEF&#39;</span></span>
+<span id="cb111-2"><a href="#cb111-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="fu">(?i)</span><span class="vs">abc&#39;</span></span>
+<span id="cb111-3"><a href="#cb111-3"></a><span class="bu">print</span>(re.findall(pattern, string1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[&#39;ABC&#39;, &#39;abc&#39;]</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="questions-for-practice-1" class="level2">
 <h2 class="anchored" data-anchor-id="questions-for-practice-1">8) Questions for practice:</h2>
@@ -3866,34 +3886,34 @@ Properly closed tags in &#39;&lt;h2&gt;Subtitle&lt;/h2&gt;&#39; is &#39;h2&#39;<
 <p><strong>Q10:</strong> Extract currency amounts with their symbols..<br> <em>Input</em>: <code>&quot;Prices: $19.99, €25.50, ¥1000, invalid$abc&quot;</code><br> <em>Output</em>: <code>[(&#39;$&#39;, &#39;19.99&#39;), (&#39;€&#39;, &#39;25.50&#39;), (&#39;¥&#39;, &#39;1000&#39;)]</code><br></p>
 <p><strong>Q11:</strong> Extract protocol, domain, and path from URLs.<br> <em>Input</em>: <code>&quot;Links: https://example.com/page, http://site.org/about/index.html, https://www.google.com/&quot;</code><br> <em>Output</em>: <code>[(&#39;https&#39;, &#39;example.com&#39;, &#39;/page&#39;), (&#39;http&#39;, &#39;site.org&#39;, &#39;/about/index.html&#39;), (&#39;https&#39;, &#39;www.google.com&#39;, &#39;&#39;)]</code><br></p>
 <div id="971a7f07" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1"></a><span class="im">import</span> re</span>
-<span id="cb111-2"><a href="#cb111-2"></a>text <span class="op">=</span> <span class="st">&quot;Call 123-1234, (555) 123-4567 or (987) 555-7890&quot;</span></span>
-<span id="cb111-3"><a href="#cb111-3"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="ch">\(</span><span class="op">?</span><span class="kw">(</span><span class="dv">\d</span><span class="op">{3}</span><span class="kw">)</span><span class="ch">\)</span><span class="op">?</span><span class="pp">[- ]</span><span class="op">?</span><span class="dv">\d</span><span class="op">{3}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{4}</span><span class="vs">&#39;</span></span>
-<span id="cb111-4"><a href="#cb111-4"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb111-5"><a href="#cb111-5"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
-<span id="cb111-6"><a href="#cb111-6"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1"></a><span class="im">import</span> re</span>
+<span id="cb113-2"><a href="#cb113-2"></a>text <span class="op">=</span> <span class="st">&quot;Call 123-1234, (555) 123-4567 or (987) 555-7890&quot;</span></span>
+<span id="cb113-3"><a href="#cb113-3"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="ch">\(</span><span class="op">?</span><span class="kw">(</span><span class="dv">\d</span><span class="op">{3}</span><span class="kw">)</span><span class="ch">\)</span><span class="op">?</span><span class="pp">[- ]</span><span class="op">?</span><span class="dv">\d</span><span class="op">{3}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{4}</span><span class="vs">&#39;</span></span>
+<span id="cb113-4"><a href="#cb113-4"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb113-5"><a href="#cb113-5"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
+<span id="cb113-6"><a href="#cb113-6"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Named groups match: 555
 Named groups match: 987</code></pre>
 </div>
 </div>
 <div id="dac1a96a" class="cell" data-execution_count="38">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1"></a>text <span class="op">=</span> <span class="st">&quot;Emails: john@example.com, jane.doe@company.co.uk&quot;</span></span>
-<span id="cb113-2"><a href="#cb113-2"></a>pattern <span class="op">=</span> <span class="vs">r&quot;</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">+</span><span class="ch">\.</span><span class="pp">*]</span><span class="op">+</span><span class="kw">)</span><span class="pp">[@]</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">+</span><span class="ch">\.</span><span class="pp">*]</span><span class="op">+</span><span class="kw">)</span><span class="dv">\b</span><span class="vs">&quot;</span></span>
-<span id="cb113-3"><a href="#cb113-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb113-4"><a href="#cb113-4"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
-<span id="cb113-5"><a href="#cb113-5"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1"></a>text <span class="op">=</span> <span class="st">&quot;Emails: john@example.com, jane.doe@company.co.uk&quot;</span></span>
+<span id="cb115-2"><a href="#cb115-2"></a>pattern <span class="op">=</span> <span class="vs">r&quot;</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">+</span><span class="ch">\.</span><span class="pp">*]</span><span class="op">+</span><span class="kw">)</span><span class="pp">[@]</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">+</span><span class="ch">\.</span><span class="pp">*]</span><span class="op">+</span><span class="kw">)</span><span class="dv">\b</span><span class="vs">&quot;</span></span>
+<span id="cb115-3"><a href="#cb115-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb115-4"><a href="#cb115-4"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
+<span id="cb115-5"><a href="#cb115-5"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Named groups match: john and example.com
 Named groups match: jane.doe and company.co.uk</code></pre>
 </div>
 </div>
 <div id="377d6251" class="cell" data-execution_count="37">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1"></a>text <span class="op">=</span> <span class="st">&quot;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Paragraph text&lt;/p&gt;&lt;div&gt;Content&lt;/div&gt;&quot;</span></span>
-<span id="cb115-2"><a href="#cb115-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;&lt;</span><span class="kw">(</span><span class="fu">?P&lt;tag&gt;</span><span class="dv">\w</span><span class="op">+</span><span class="kw">)</span><span class="vs">&gt;</span><span class="kw">(</span><span class="fu">?P&lt;body&gt;</span><span class="dv">.</span><span class="op">*?</span><span class="kw">)</span><span class="vs">&lt;/</span><span class="ch">\1</span><span class="vs">&gt;&#39;</span></span>
-<span id="cb115-3"><a href="#cb115-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb115-4"><a href="#cb115-4"></a><span class="cf">for</span> m <span class="kw">in</span> match3:</span>
-<span id="cb115-5"><a href="#cb115-5"></a>    <span class="bu">print</span>(m.groupdict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1"></a>text <span class="op">=</span> <span class="st">&quot;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Paragraph text&lt;/p&gt;&lt;div&gt;Content&lt;/div&gt;&quot;</span></span>
+<span id="cb117-2"><a href="#cb117-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;&lt;</span><span class="kw">(</span><span class="fu">?P&lt;tag&gt;</span><span class="dv">\w</span><span class="op">+</span><span class="kw">)</span><span class="vs">&gt;</span><span class="kw">(</span><span class="fu">?P&lt;body&gt;</span><span class="dv">.</span><span class="op">*?</span><span class="kw">)</span><span class="vs">&lt;/</span><span class="ch">\1</span><span class="vs">&gt;&#39;</span></span>
+<span id="cb117-3"><a href="#cb117-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb117-4"><a href="#cb117-4"></a><span class="cf">for</span> m <span class="kw">in</span> match3:</span>
+<span id="cb117-5"><a href="#cb117-5"></a>    <span class="bu">print</span>(m.groupdict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{&#39;tag&#39;: &#39;h1&#39;, &#39;body&#39;: &#39;Title&#39;}
 {&#39;tag&#39;: &#39;p&#39;, &#39;body&#39;: &#39;Paragraph text&#39;}
@@ -3901,23 +3921,23 @@ Named groups match: jane.doe and company.co.uk</code></pre>
 </div>
 </div>
 <div id="6749acda" class="cell" data-execution_count="36">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1"></a>text <span class="op">=</span> <span class="st">&quot;2023-12-25 10:30:45 ERROR: File not found</span><span class="ch">\n</span><span class="st">2023-12-25 11:15:20 INFO: User logged in&quot;</span></span>
-<span id="cb117-2"><a href="#cb117-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?P&lt;datetime&gt;</span><span class="dv">\d</span><span class="op">{4}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{2}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{2}</span><span class="dv">\s\d</span><span class="op">{2}</span><span class="vs">:</span><span class="dv">\d</span><span class="op">{2}</span><span class="vs">:</span><span class="dv">\d</span><span class="op">{2}</span><span class="kw">)</span><span class="dv">\s</span><span class="kw">(</span><span class="fu">?P&lt;level&gt;</span><span class="dv">\w</span><span class="op">+</span><span class="kw">)</span><span class="ch">\:</span><span class="dv">\s</span><span class="kw">(</span><span class="fu">?P&lt;message&gt;</span><span class="dv">.</span><span class="op">*</span><span class="kw">)</span><span class="vs">&#39;</span></span>
-<span id="cb117-3"><a href="#cb117-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb117-4"><a href="#cb117-4"></a><span class="cf">for</span> m <span class="kw">in</span> match3:</span>
-<span id="cb117-5"><a href="#cb117-5"></a>    <span class="bu">print</span>(m.groupdict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1"></a>text <span class="op">=</span> <span class="st">&quot;2023-12-25 10:30:45 ERROR: File not found</span><span class="ch">\n</span><span class="st">2023-12-25 11:15:20 INFO: User logged in&quot;</span></span>
+<span id="cb119-2"><a href="#cb119-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?P&lt;datetime&gt;</span><span class="dv">\d</span><span class="op">{4}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{2}</span><span class="vs">-</span><span class="dv">\d</span><span class="op">{2}</span><span class="dv">\s\d</span><span class="op">{2}</span><span class="vs">:</span><span class="dv">\d</span><span class="op">{2}</span><span class="vs">:</span><span class="dv">\d</span><span class="op">{2}</span><span class="kw">)</span><span class="dv">\s</span><span class="kw">(</span><span class="fu">?P&lt;level&gt;</span><span class="dv">\w</span><span class="op">+</span><span class="kw">)</span><span class="ch">\:</span><span class="dv">\s</span><span class="kw">(</span><span class="fu">?P&lt;message&gt;</span><span class="dv">.</span><span class="op">*</span><span class="kw">)</span><span class="vs">&#39;</span></span>
+<span id="cb119-3"><a href="#cb119-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb119-4"><a href="#cb119-4"></a><span class="cf">for</span> m <span class="kw">in</span> match3:</span>
+<span id="cb119-5"><a href="#cb119-5"></a>    <span class="bu">print</span>(m.groupdict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{&#39;datetime&#39;: &#39;2023-12-25 10:30:45&#39;, &#39;level&#39;: &#39;ERROR&#39;, &#39;message&#39;: &#39;File not found&#39;}
 {&#39;datetime&#39;: &#39;2023-12-25 11:15:20&#39;, &#39;level&#39;: &#39;INFO&#39;, &#39;message&#39;: &#39;User logged in&#39;}</code></pre>
 </div>
 </div>
 <div id="91ae9a17" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1"></a><span class="im">import</span> regex <span class="im">as</span> re</span>
-<span id="cb119-2"><a href="#cb119-2"></a>text <span class="op">=</span> <span class="st">&quot;Prices: €25.52, ¥100, ₹25.5 invalid$abc&quot;</span></span>
-<span id="cb119-3"><a href="#cb119-3"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="ch">\p{Sc}</span><span class="kw">)(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">(</span><span class="ch">\.</span><span class="dv">\d</span><span class="op">{0,2}</span><span class="kw">)</span><span class="op">*</span><span class="kw">)</span><span class="vs">&#39;</span> <span class="co"># \p{Sc} matches currency symbols</span></span>
-<span id="cb119-4"><a href="#cb119-4"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb119-5"><a href="#cb119-5"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
-<span id="cb119-6"><a href="#cb119-6"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1"></a><span class="im">import</span> regex <span class="im">as</span> re</span>
+<span id="cb121-2"><a href="#cb121-2"></a>text <span class="op">=</span> <span class="st">&quot;Prices: €25.52, ¥100, ₹25.5 invalid$abc&quot;</span></span>
+<span id="cb121-3"><a href="#cb121-3"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="ch">\p{Sc}</span><span class="kw">)(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">(</span><span class="ch">\.</span><span class="dv">\d</span><span class="op">{0,2}</span><span class="kw">)</span><span class="op">*</span><span class="kw">)</span><span class="vs">&#39;</span> <span class="co"># \p{Sc} matches currency symbols</span></span>
+<span id="cb121-4"><a href="#cb121-4"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb121-5"><a href="#cb121-5"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
+<span id="cb121-6"><a href="#cb121-6"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Named groups match: € and 25.52
 Named groups match: ¥ and 100
@@ -3925,11 +3945,11 @@ Named groups match: ₹ and 25.5</code></pre>
 </div>
 </div>
 <div id="dabe92eb" class="cell" data-execution_count="75">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1"></a>text <span class="op">=</span> <span class="st">&quot;Links: https://example.com/page, http://site.org/about/index.html, https://www.google.com/&quot;</span></span>
-<span id="cb121-2"><a href="#cb121-2"></a>pattern <span class="op">=</span> <span class="vs">r&quot;</span><span class="kw">(</span><span class="vs">https</span><span class="cf">|</span><span class="vs">http</span><span class="kw">)</span><span class="vs">:</span><span class="ch">\/\/</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">.</span><span class="ch">\-</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="ch">\/</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">./</span><span class="ch">\-</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="op">*</span><span class="vs">&quot;</span></span>
-<span id="cb121-3"><a href="#cb121-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb121-4"><a href="#cb121-4"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
-<span id="cb121-5"><a href="#cb121-5"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1"></a>text <span class="op">=</span> <span class="st">&quot;Links: https://example.com/page, http://site.org/about/index.html, https://www.google.com/&quot;</span></span>
+<span id="cb123-2"><a href="#cb123-2"></a>pattern <span class="op">=</span> <span class="vs">r&quot;</span><span class="kw">(</span><span class="vs">https</span><span class="cf">|</span><span class="vs">http</span><span class="kw">)</span><span class="vs">:</span><span class="ch">\/\/</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">.</span><span class="ch">\-</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="ch">\/</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\w</span><span class="pp">./</span><span class="ch">\-</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="op">*</span><span class="vs">&quot;</span></span>
+<span id="cb123-3"><a href="#cb123-3"></a>match3 <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb123-4"><a href="#cb123-4"></a><span class="cf">for</span> match <span class="kw">in</span> match3:</span>
+<span id="cb123-5"><a href="#cb123-5"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Named groups match: </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">1</span>)<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">2</span>)<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Named groups match: https - example.com - page
 Named groups match: http - site.org - about/index.html
@@ -3992,13 +4012,13 @@ Named groups match: https - www.google.com - None</code></pre>
 <h3 class="anchored" data-anchor-id="x---positive-lookahead">9.1) <code>(?=x)</code> - Positive Lookahead</h3>
 <p>In positive lookahead, the pattern matches if the text to the right of the current position matches the pattern.</p>
 <div id="3aea96ec" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1"></a>text1 <span class="op">=</span> <span class="st">&quot;banana Mississippi missed&quot;</span></span>
-<span id="cb123-2"><a href="#cb123-2"></a>pattern1 <span class="op">=</span> <span class="vs">r&#39;an</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">ana</span><span class="ex">)</span><span class="cf">|</span><span class="vs">iss</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">issi</span><span class="ex">)</span><span class="vs">&#39;</span></span>
-<span id="cb123-3"><a href="#cb123-3"></a>matches1 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern1, text1))</span>
-<span id="cb123-4"><a href="#cb123-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: </span><span class="sc">{</span>pattern1<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb123-5"><a href="#cb123-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text1<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb123-6"><a href="#cb123-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches1:</span>
-<span id="cb123-7"><a href="#cb123-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;  Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">0</span>)<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1"></a>text1 <span class="op">=</span> <span class="st">&quot;banana Mississippi missed&quot;</span></span>
+<span id="cb125-2"><a href="#cb125-2"></a>pattern1 <span class="op">=</span> <span class="vs">r&#39;an</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">ana</span><span class="ex">)</span><span class="cf">|</span><span class="vs">iss</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">issi</span><span class="ex">)</span><span class="vs">&#39;</span></span>
+<span id="cb125-3"><a href="#cb125-3"></a>matches1 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern1, text1))</span>
+<span id="cb125-4"><a href="#cb125-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: </span><span class="sc">{</span>pattern1<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb125-5"><a href="#cb125-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text1<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb125-6"><a href="#cb125-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches1:</span>
+<span id="cb125-7"><a href="#cb125-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;  Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group(<span class="dv">0</span>)<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Pattern: an(?=ana)|iss(?=issi)
 Text: &#39;banana Mississippi missed&#39;
@@ -4007,12 +4027,12 @@ Text: &#39;banana Mississippi missed&#39;
 </div>
 </div>
 <div id="7e24391b" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1"></a>text_css <span class="op">=</span> <span class="st">&quot;padding: 10px; margin: 2em; width: 100%; height: 50px&quot;</span></span>
-<span id="cb125-2"><a href="#cb125-2"></a>pattern_css <span class="op">=</span> <span class="vs">r&#39;</span><span class="dv">\d</span><span class="op">+</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">px</span><span class="cf">|</span><span class="vs">em</span><span class="ex">)</span><span class="vs">&#39;</span></span>
-<span id="cb125-3"><a href="#cb125-3"></a>css_values <span class="op">=</span> re.findall(pattern_css, text_css)</span>
-<span id="cb125-4"><a href="#cb125-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_css<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb125-5"><a href="#cb125-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern_css<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb125-6"><a href="#cb125-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Values: </span><span class="sc">{</span>css_values<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1"></a>text_css <span class="op">=</span> <span class="st">&quot;padding: 10px; margin: 2em; width: 100%; height: 50px&quot;</span></span>
+<span id="cb127-2"><a href="#cb127-2"></a>pattern_css <span class="op">=</span> <span class="vs">r&#39;</span><span class="dv">\d</span><span class="op">+</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">px</span><span class="cf">|</span><span class="vs">em</span><span class="ex">)</span><span class="vs">&#39;</span></span>
+<span id="cb127-3"><a href="#cb127-3"></a>css_values <span class="op">=</span> re.findall(pattern_css, text_css)</span>
+<span id="cb127-4"><a href="#cb127-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_css<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb127-5"><a href="#cb127-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern_css<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb127-6"><a href="#cb127-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Values: </span><span class="sc">{</span>css_values<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Text: &#39;padding: 10px; margin: 2em; width: 100%; height: 50px&#39;
 Pattern: &#39;\d+(?=px|em)&#39;
@@ -4024,14 +4044,14 @@ Values: [&#39;10&#39;, &#39;2&#39;, &#39;50&#39;]</code></pre>
 <h3 class="anchored" data-anchor-id="x---negative-lookahead">9.2) <code>(?!x)</code> - Negative Lookahead</h3>
 <p>In negative lookahead, the pattern matches if the text to the right of the current position does not match the pattern.</p>
 <div id="b4e51bd2" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1"></a>text2 <span class="op">=</span> <span class="st">&quot;fail faint train fraigile&quot;</span></span>
-<span id="cb127-2"><a href="#cb127-2"></a>pattern2 <span class="op">=</span> <span class="vs">r&#39;ai</span><span class="ex">(</span><span class="fu">?!</span><span class="vs">n</span><span class="ex">)</span><span class="vs">&#39;</span></span>
-<span id="cb127-3"><a href="#cb127-3"></a>matches2 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern2, text2))</span>
-<span id="cb127-4"><a href="#cb127-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern2<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb127-5"><a href="#cb127-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text2<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb127-6"><a href="#cb127-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches2:</span>
-<span id="cb127-7"><a href="#cb127-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group()<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb127-8"><a href="#cb127-8"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- What follows: &#39;</span><span class="sc">{</span>text2[match.end():match.end()<span class="op">+</span><span class="dv">2</span>]<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1"></a>text2 <span class="op">=</span> <span class="st">&quot;fail faint train fraigile&quot;</span></span>
+<span id="cb129-2"><a href="#cb129-2"></a>pattern2 <span class="op">=</span> <span class="vs">r&#39;ai</span><span class="ex">(</span><span class="fu">?!</span><span class="vs">n</span><span class="ex">)</span><span class="vs">&#39;</span></span>
+<span id="cb129-3"><a href="#cb129-3"></a>matches2 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern2, text2))</span>
+<span id="cb129-4"><a href="#cb129-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern2<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb129-5"><a href="#cb129-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text2<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb129-6"><a href="#cb129-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches2:</span>
+<span id="cb129-7"><a href="#cb129-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group()<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb129-8"><a href="#cb129-8"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- What follows: &#39;</span><span class="sc">{</span>text2[match.end():match.end()<span class="op">+</span><span class="dv">2</span>]<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Pattern: &#39;ai(?!n)&#39;
 Text: &#39;fail faint train fraigile&#39;
@@ -4046,14 +4066,14 @@ Text: &#39;fail faint train fraigile&#39;
 <h3 class="anchored" data-anchor-id="x---positive-lookbehind">9.3) <code>(?&lt;=x)</code> - Positive Lookbehind</h3>
 <p>In positive lookbehind, the pattern matches if the text to the left of the current position matches the pattern.</p>
 <div id="4dabfcdf" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1"></a>text3 <span class="op">=</span> <span class="st">&quot;trail translate bear streak&quot;</span></span>
-<span id="cb129-2"><a href="#cb129-2"></a>pattern3 <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=tr</span><span class="kw">)</span><span class="vs">a&#39;</span></span>
-<span id="cb129-3"><a href="#cb129-3"></a>matches3 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern3, text3))</span>
-<span id="cb129-4"><a href="#cb129-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb129-5"><a href="#cb129-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb129-6"><a href="#cb129-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches3:</span>
-<span id="cb129-7"><a href="#cb129-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group()<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
-<span id="cb129-8"><a href="#cb129-8"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- What follows: &#39;</span><span class="sc">{</span>text3[match.start()<span class="op">+</span><span class="dv">1</span>:match.start()<span class="op">+</span><span class="dv">3</span>]<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1"></a>text3 <span class="op">=</span> <span class="st">&quot;trail translate bear streak&quot;</span></span>
+<span id="cb131-2"><a href="#cb131-2"></a>pattern3 <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=tr</span><span class="kw">)</span><span class="vs">a&#39;</span></span>
+<span id="cb131-3"><a href="#cb131-3"></a>matches3 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern3, text3))</span>
+<span id="cb131-4"><a href="#cb131-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb131-5"><a href="#cb131-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb131-6"><a href="#cb131-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches3:</span>
+<span id="cb131-7"><a href="#cb131-7"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- Match: &#39;</span><span class="sc">{</span>match<span class="sc">.</span>group()<span class="sc">}</span><span class="ss">&#39; at position </span><span class="sc">{</span>match<span class="sc">.</span>start()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb131-8"><a href="#cb131-8"></a>    <span class="bu">print</span>(<span class="ss">f&quot;- What follows: &#39;</span><span class="sc">{</span>text3[match.start()<span class="op">+</span><span class="dv">1</span>:match.start()<span class="op">+</span><span class="dv">3</span>]<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Pattern: &#39;(?&lt;=tr)a&#39;
 Text: &#39;trail translate bear streak&#39;
@@ -4064,13 +4084,13 @@ Text: &#39;trail translate bear streak&#39;
 </div>
 </div>
 <div id="063105d7" class="cell" data-execution_count="32">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1"></a>text3 <span class="op">=</span> <span class="st">&quot;Fruits total 10kg in which apple are 5000gm&quot;</span></span>
-<span id="cb131-2"><a href="#cb131-2"></a>pattern3 <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="pp">[a-zA-Z]</span><span class="op">+</span><span class="vs">&#39;</span></span>
-<span id="cb131-3"><a href="#cb131-3"></a>matches3 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern3, text3))</span>
-<span id="cb131-4"><a href="#cb131-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb131-5"><a href="#cb131-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb131-6"><a href="#cb131-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches3:</span>
-<span id="cb131-7"><a href="#cb131-7"></a>    <span class="bu">print</span>(match)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1"></a>text3 <span class="op">=</span> <span class="st">&quot;Fruits total 10kg in which apple are 5000gm&quot;</span></span>
+<span id="cb133-2"><a href="#cb133-2"></a>pattern3 <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="pp">[a-zA-Z]</span><span class="op">+</span><span class="vs">&#39;</span></span>
+<span id="cb133-3"><a href="#cb133-3"></a>matches3 <span class="op">=</span> <span class="bu">list</span>(re.finditer(pattern3, text3))</span>
+<span id="cb133-4"><a href="#cb133-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb133-5"><a href="#cb133-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text3<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb133-6"><a href="#cb133-6"></a><span class="cf">for</span> match <span class="kw">in</span> matches3:</span>
+<span id="cb133-7"><a href="#cb133-7"></a>    <span class="bu">print</span>(match)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Pattern: &#39;(?&lt;=\d+)[a-zA-Z]+&#39;
 Text: &#39;Fruits total 10kg in which apple are 5000gm&#39;
@@ -4083,13 +4103,13 @@ Text: &#39;Fruits total 10kg in which apple are 5000gm&#39;
 <h3 class="anchored" data-anchor-id="x---negative-lookbehind">9.4) <code>(?&lt;!x)</code> - Negative lookbehind</h3>
 <p>In negative lookbehind, the pattern matches if the text to the left of the current position does not match the pattern.</p>
 <div id="7910b199" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1"></a><span class="co"># Match @mentions but not email addresses</span></span>
-<span id="cb133-2"><a href="#cb133-2"></a>text_mentions <span class="op">=</span> <span class="st">&quot;Hello @john and @jane! Email: john@example.com&quot;</span></span>
-<span id="cb133-3"><a href="#cb133-3"></a>pattern_mentions <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">!</span><span class="dv">\w</span><span class="kw">)</span><span class="vs">@</span><span class="dv">\w</span><span class="op">+</span><span class="vs">&#39;</span></span>
-<span id="cb133-4"><a href="#cb133-4"></a>mentions <span class="op">=</span> re.findall(pattern_mentions, text_mentions)</span>
-<span id="cb133-5"><a href="#cb133-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_mentions<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb133-6"><a href="#cb133-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern_mentions<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb133-7"><a href="#cb133-7"></a><span class="bu">print</span>(<span class="ss">f&quot;Mentions: </span><span class="sc">{</span>mentions<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1"></a><span class="co"># Match @mentions but not email addresses</span></span>
+<span id="cb135-2"><a href="#cb135-2"></a>text_mentions <span class="op">=</span> <span class="st">&quot;Hello @john and @jane! Email: john@example.com&quot;</span></span>
+<span id="cb135-3"><a href="#cb135-3"></a>pattern_mentions <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">!</span><span class="dv">\w</span><span class="kw">)</span><span class="vs">@</span><span class="dv">\w</span><span class="op">+</span><span class="vs">&#39;</span></span>
+<span id="cb135-4"><a href="#cb135-4"></a>mentions <span class="op">=</span> re.findall(pattern_mentions, text_mentions)</span>
+<span id="cb135-5"><a href="#cb135-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_mentions<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb135-6"><a href="#cb135-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern_mentions<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb135-7"><a href="#cb135-7"></a><span class="bu">print</span>(<span class="ss">f&quot;Mentions: </span><span class="sc">{</span>mentions<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Text: &#39;Hello @john and @jane! Email: john@example.com&#39;
 Pattern: &#39;(?&lt;!\w)@\w+&#39;
@@ -4105,12 +4125,12 @@ Mentions: [&#39;@john&#39;, &#39;@jane&#39;]</code></pre>
 <p><strong>Q14:</strong> Extract ‘cat’ when not ‘wildcat’ or ‘catfish’<br> <em>Input:</em> <code>&quot;cat wildcat catfish bobcat catalog&quot;</code><br> <em>Output:</em> <code>[&quot;cat&quot;]</code><br></p>
 <p><strong>Q15:</strong> Write a regex that matches only non-image URLs, with these rules:<br> <em>Input:</em> <code>&quot;Check these links: https://example.com/page, https://example.com/photo.jpeg, http://site.org/docs/report.pdf, https://cdn.site.net/icon.svg, https://blog.site.ai/post&quot;</code><br> <em>Output:</em> <code>[&quot;https://example.com/page&quot;, &quot;http://site.org/docs/report.pdf&quot;, &quot;https://blog.site.ai/post&quot;]</code><br></p>
 <div id="b805c16e" class="cell" data-execution_count="33">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1"></a>text_money <span class="op">=</span> <span class="st">&quot;Prices: $19.99, $25, ₹100.50, Total: $200 €300&quot;</span></span>
-<span id="cb135-2"><a href="#cb135-2"></a>pattern_money <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=</span><span class="ch">\$</span><span class="kw">)</span><span class="dv">\d</span><span class="op">+</span>(?:<span class="ch">\.</span><span class="dv">\d</span><span class="op">+</span>)<span class="op">?</span><span class="vs">&#39;</span></span>
-<span id="cb135-3"><a href="#cb135-3"></a>amounts <span class="op">=</span> re.findall(pattern_money, text_money)</span>
-<span id="cb135-4"><a href="#cb135-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_money<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb135-5"><a href="#cb135-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;(?&lt;=</span><span class="ch">\\</span><span class="ss">$)</span><span class="ch">\\</span><span class="ss">d+(?:</span><span class="ch">\\</span><span class="ss">.</span><span class="ch">\\</span><span class="ss">d+)?&#39;&quot;</span>)</span>
-<span id="cb135-6"><a href="#cb135-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Amounts: </span><span class="sc">{</span>amounts<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1"></a>text_money <span class="op">=</span> <span class="st">&quot;Prices: $19.99, $25, ₹100.50, Total: $200 €300&quot;</span></span>
+<span id="cb137-2"><a href="#cb137-2"></a>pattern_money <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=</span><span class="ch">\$</span><span class="kw">)</span><span class="dv">\d</span><span class="op">+</span>(?:<span class="ch">\.</span><span class="dv">\d</span><span class="op">+</span>)<span class="op">?</span><span class="vs">&#39;</span></span>
+<span id="cb137-3"><a href="#cb137-3"></a>amounts <span class="op">=</span> re.findall(pattern_money, text_money)</span>
+<span id="cb137-4"><a href="#cb137-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_money<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb137-5"><a href="#cb137-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;(?&lt;=</span><span class="ch">\\</span><span class="ss">$)</span><span class="ch">\\</span><span class="ss">d+(?:</span><span class="ch">\\</span><span class="ss">.</span><span class="ch">\\</span><span class="ss">d+)?&#39;&quot;</span>)</span>
+<span id="cb137-6"><a href="#cb137-6"></a><span class="bu">print</span>(<span class="ss">f&quot;Amounts: </span><span class="sc">{</span>amounts<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Text: &#39;Prices: $19.99, $25, ₹100.50, Total: $200 €300&#39;
 Pattern: &#39;(?&lt;=\$)\d+(?:\.\d+)?&#39;
@@ -4118,13 +4138,13 @@ Amounts: [&#39;19.99&#39;, &#39;25&#39;, &#39;200&#39;]</code></pre>
 </div>
 </div>
 <div id="04249ee3" class="cell" data-execution_count="74">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1"></a>text <span class="op">=</span> <span class="st">&quot;running jumping something anything singing nothing everything&quot;</span></span>
-<span id="cb137-2"><a href="#cb137-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="dv">\b</span><span class="ex">(</span><span class="fu">?!</span><span class="dv">\w</span><span class="op">*</span><span class="vs">thing</span><span class="dv">.</span><span class="op">*</span><span class="ex">)</span><span class="dv">\w</span><span class="op">+</span><span class="vs">ing</span><span class="dv">\b</span><span class="vs">&#39;</span></span>
-<span id="cb137-3"><a href="#cb137-3"></a>match <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb137-4"><a href="#cb137-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb137-5"><a href="#cb137-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb137-6"><a href="#cb137-6"></a><span class="cf">for</span> i <span class="kw">in</span> match:</span>
-<span id="cb137-7"><a href="#cb137-7"></a>    <span class="bu">print</span>(i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1"></a>text <span class="op">=</span> <span class="st">&quot;running jumping something anything singing nothing everything&quot;</span></span>
+<span id="cb139-2"><a href="#cb139-2"></a>pattern <span class="op">=</span> <span class="vs">r&#39;</span><span class="dv">\b</span><span class="ex">(</span><span class="fu">?!</span><span class="dv">\w</span><span class="op">*</span><span class="vs">thing</span><span class="dv">.</span><span class="op">*</span><span class="ex">)</span><span class="dv">\w</span><span class="op">+</span><span class="vs">ing</span><span class="dv">\b</span><span class="vs">&#39;</span></span>
+<span id="cb139-3"><a href="#cb139-3"></a>match <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb139-4"><a href="#cb139-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb139-5"><a href="#cb139-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Pattern: &#39;</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb139-6"><a href="#cb139-6"></a><span class="cf">for</span> i <span class="kw">in</span> match:</span>
+<span id="cb139-7"><a href="#cb139-7"></a>    <span class="bu">print</span>(i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Text: &#39;running jumping something anything singing nothing everything&#39;
 Pattern: &#39;\b(?!\w*thing.*)\w+ing\b&#39;
@@ -4133,12 +4153,12 @@ Pattern: &#39;\b(?!\w*thing.*)\w+ing\b&#39;
 &lt;re.Match object; span=(35, 42), match=&#39;singing&#39;&gt;</code></pre>
 </div>
 </div>
-<div id="053247c7" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1"></a>text_cat <span class="op">=</span> <span class="st">&quot;cat wildcat catfish bobcat catalog&quot;</span></span>
-<span id="cb139-2"><a href="#cb139-2"></a>pattern_cat <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">!</span><span class="dv">\w</span><span class="kw">)(</span><span class="fu">?&lt;</span><span class="vs">!wild</span><span class="kw">)</span><span class="vs">cat</span><span class="ex">(</span><span class="fu">?!</span><span class="vs">fish</span><span class="cf">|</span><span class="vs">alog</span><span class="ex">)</span><span class="dv">\b</span><span class="vs">&#39;</span></span>
-<span id="cb139-3"><a href="#cb139-3"></a>cat_matches <span class="op">=</span> re.findall(pattern_cat, text_cat)</span>
-<span id="cb139-4"><a href="#cb139-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_cat<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
-<span id="cb139-5"><a href="#cb139-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Matches: </span><span class="sc">{</span>cat_matches<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="053247c7" class="cell" data-execution_count="75">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1"></a>text_cat <span class="op">=</span> <span class="st">&quot;cat wildcat catfish bobcat catalog&quot;</span></span>
+<span id="cb141-2"><a href="#cb141-2"></a>pattern_cat <span class="op">=</span> <span class="vs">r&#39;</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">!</span><span class="dv">\w</span><span class="kw">)(</span><span class="fu">?&lt;</span><span class="vs">!wild</span><span class="kw">)</span><span class="vs">cat</span><span class="ex">(</span><span class="fu">?!</span><span class="vs">fish</span><span class="cf">|</span><span class="vs">alog</span><span class="ex">)</span><span class="dv">\b</span><span class="vs">&#39;</span></span>
+<span id="cb141-3"><a href="#cb141-3"></a>cat_matches <span class="op">=</span> re.findall(pattern_cat, text_cat)</span>
+<span id="cb141-4"><a href="#cb141-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Text: &#39;</span><span class="sc">{</span>text_cat<span class="sc">}</span><span class="ss">&#39;&quot;</span>)</span>
+<span id="cb141-5"><a href="#cb141-5"></a><span class="bu">print</span>(<span class="ss">f&quot;Matches: </span><span class="sc">{</span>cat_matches<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Text: &#39;cat wildcat catfish bobcat catalog&#39;
 Pattern: uses lookbehind AND lookahead
@@ -4146,25 +4166,25 @@ Matches: [&#39;cat&#39;]</code></pre>
 </div>
 </div>
 <div id="fe1960f8" class="cell" data-execution_count="98">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1"></a><span class="im">import</span> re</span>
-<span id="cb141-2"><a href="#cb141-2"></a></span>
-<span id="cb141-3"><a href="#cb141-3"></a>text <span class="op">=</span> <span class="st">&quot;&quot;&quot;Check these links:</span></span>
-<span id="cb141-4"><a href="#cb141-4"></a><span class="st">https://example.com/page,</span></span>
-<span id="cb141-5"><a href="#cb141-5"></a><span class="st">https://example.com/photo.jpeg</span></span>
-<span id="cb141-6"><a href="#cb141-6"></a><span class="st">http://site.org/docs/report.pdf)</span></span>
-<span id="cb141-7"><a href="#cb141-7"></a><span class="st">https://cdn.site.net/icon.svg,</span></span>
-<span id="cb141-8"><a href="#cb141-8"></a><span class="st">https://blog.site.ai/post</span></span>
-<span id="cb141-9"><a href="#cb141-9"></a><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb141-10"><a href="#cb141-10"></a></span>
-<span id="cb141-11"><a href="#cb141-11"></a>pattern <span class="op">=</span> <span class="vs">r&#39;https</span><span class="op">?</span><span class="vs">://</span><span class="ex">(</span><span class="fu">?!</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\,\)\]</span><span class="pp">]</span><span class="op">*</span><span class="ch">\.</span>(?:<span class="vs">jpg</span><span class="cf">|</span><span class="vs">jpeg</span><span class="cf">|</span><span class="vs">png</span><span class="cf">|</span><span class="vs">gif</span><span class="cf">|</span><span class="vs">svg</span>)<span class="dv">\b</span><span class="ex">)</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\,\)\]</span><span class="pp">]</span><span class="op">+</span><span class="vs">&#39;</span></span>
-<span id="cb141-12"><a href="#cb141-12"></a></span>
-<span id="cb141-13"><a href="#cb141-13"></a>matches <span class="op">=</span> re.finditer(pattern, text)</span>
-<span id="cb141-14"><a href="#cb141-14"></a></span>
-<span id="cb141-15"><a href="#cb141-15"></a><span class="bu">print</span>(<span class="st">&quot;Input text:&quot;</span>)</span>
-<span id="cb141-16"><a href="#cb141-16"></a><span class="bu">print</span>(text)</span>
-<span id="cb141-17"><a href="#cb141-17"></a><span class="bu">print</span>(<span class="st">&quot;Matched URLs:&quot;</span>)</span>
-<span id="cb141-18"><a href="#cb141-18"></a><span class="cf">for</span> m <span class="kw">in</span> matches:</span>
-<span id="cb141-19"><a href="#cb141-19"></a>    <span class="bu">print</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1"></a><span class="im">import</span> re</span>
+<span id="cb143-2"><a href="#cb143-2"></a></span>
+<span id="cb143-3"><a href="#cb143-3"></a>text <span class="op">=</span> <span class="st">&quot;&quot;&quot;Check these links:</span></span>
+<span id="cb143-4"><a href="#cb143-4"></a><span class="st">https://example.com/page,</span></span>
+<span id="cb143-5"><a href="#cb143-5"></a><span class="st">https://example.com/photo.jpeg</span></span>
+<span id="cb143-6"><a href="#cb143-6"></a><span class="st">http://site.org/docs/report.pdf)</span></span>
+<span id="cb143-7"><a href="#cb143-7"></a><span class="st">https://cdn.site.net/icon.svg,</span></span>
+<span id="cb143-8"><a href="#cb143-8"></a><span class="st">https://blog.site.ai/post</span></span>
+<span id="cb143-9"><a href="#cb143-9"></a><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb143-10"><a href="#cb143-10"></a></span>
+<span id="cb143-11"><a href="#cb143-11"></a>pattern <span class="op">=</span> <span class="vs">r&#39;https</span><span class="op">?</span><span class="vs">://</span><span class="ex">(</span><span class="fu">?!</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\,\)\]</span><span class="pp">]</span><span class="op">*</span><span class="ch">\.</span>(?:<span class="vs">jpg</span><span class="cf">|</span><span class="vs">jpeg</span><span class="cf">|</span><span class="vs">png</span><span class="cf">|</span><span class="vs">gif</span><span class="cf">|</span><span class="vs">svg</span>)<span class="dv">\b</span><span class="ex">)</span><span class="pp">[^</span><span class="dv">\s</span><span class="ch">\,\)\]</span><span class="pp">]</span><span class="op">+</span><span class="vs">&#39;</span></span>
+<span id="cb143-12"><a href="#cb143-12"></a></span>
+<span id="cb143-13"><a href="#cb143-13"></a>matches <span class="op">=</span> re.finditer(pattern, text)</span>
+<span id="cb143-14"><a href="#cb143-14"></a></span>
+<span id="cb143-15"><a href="#cb143-15"></a><span class="bu">print</span>(<span class="st">&quot;Input text:&quot;</span>)</span>
+<span id="cb143-16"><a href="#cb143-16"></a><span class="bu">print</span>(text)</span>
+<span id="cb143-17"><a href="#cb143-17"></a><span class="bu">print</span>(<span class="st">&quot;Matched URLs:&quot;</span>)</span>
+<span id="cb143-18"><a href="#cb143-18"></a><span class="cf">for</span> m <span class="kw">in</span> matches:</span>
+<span id="cb143-19"><a href="#cb143-19"></a>    <span class="bu">print</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Input text:
 Check these links:
