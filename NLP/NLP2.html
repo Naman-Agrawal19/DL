@@ -3243,15 +3243,15 @@ Lazy &#39;&lt;div&gt;.*?&lt;/div&gt;&#39;: [&#39;&lt;div&gt;content&lt;/div&gt;&
 <tr class="even">
 <td><code>[^abc]</code></td>
 <td><strong>Negated character class</strong> - match any character EXCEPT these</td>
-<td><code>r&#39;[^aeiou\s]&#39;</code></td>
-<td>c<span style="background-color: #6de0d1;">t</span><br>d<span style="background-color: #6de0d1;">g</span></td>
+<td><code>r&#39;[^aeiou\s]+&#39;</code></td>
+<td><span style="background-color: #6de0d1;">ct</span><br><span style="background-color: #6de0d1;">dg</span></td>
 <td>a<br>e<br>(space)</td>
 </tr>
 <tr class="odd">
 <td><code>[^a-z]</code></td>
 <td><strong>Negated range</strong> - match anything except lowercase letters</td>
 <td><code>r&#39;[^a-z]+&#39;</code></td>
-<td><span style="background-color: #6de0d1;">ABC123</span>!</td>
+<td><span style="background-color: #6de0d1;">ABC123</span></td>
 <td>hello<br>world</td>
 </tr>
 <tr class="even">
