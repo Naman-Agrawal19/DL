@@ -4935,9 +4935,15 @@ We compare these two values and choose the larger one.
 </tbody>
 </table>
 <p><strong>Step 3: Make a Prediction</strong></p>
-<p>Let’s predict a <strong>new email</strong>: - Contains “free”? Yes - Contains “winner”? No</p>
-<p><strong>Calculate Spam Score:</strong> <span class="math inline">\(P(\text{Spam}) \times P(\text{free}|\text{Spam}) \times P(\text{not winner}|\text{Spam})\)</span> <span class="math inline">\(= 0.5 \times 2/3 \times 1/3\)</span> <span class="math inline">\(= 0.5 \times 0.222\)</span> <span class="math inline">\(= 0.111\)</span></p>
-<p><strong>Calculate Not Spam Score:</strong> <span class="math inline">\(P(\text{Not Spam}) \times P(\text{free}|\text{Not Spam}) \times P(\text{not winner}|\text{Not Spam})\)</span> <span class="math inline">\(= 0.5 \times 1/3 \times 1\)</span> <span class="math inline">\(= 0.5 \times 0.333\)</span> <span class="math inline">\(= 0.1665\)</span></p>
+<p>Let’s predict a <strong>new email</strong>:</p>
+<ul>
+<li>Contains “free”? Yes</li>
+<li>Contains “winner”? No</li>
+</ul>
+<p><strong>Calculate Spam Score:</strong></p>
+<p><span class="math inline">\(P(\text{Spam}) \times P(\text{free}|\text{Spam}) \times P(\text{not winner}|\text{Spam})\)</span> <span class="math inline">\(= 0.5 \times 2/3 \times 1/3\)</span> <span class="math inline">\(= 0.5 \times 0.222\)</span> <span class="math inline">\(= 0.111\)</span></p>
+<p><strong>Calculate Not Spam Score:</strong></p>
+<p><span class="math inline">\(P(\text{Not Spam}) \times P(\text{free}|\text{Not Spam}) \times P(\text{not winner}|\text{Not Spam})\)</span> <span class="math inline">\(= 0.5 \times 1/3 \times 1\)</span> <span class="math inline">\(= 0.5 \times 0.333\)</span> <span class="math inline">\(= 0.1665\)</span></p>
 <p><strong>Decision:</strong> Not Spam (<span class="math inline">\(0.1665 &gt; 0.111\)</span>)</p>
 </section>
 <section id="issue-of-zero-probability" class="level3">
